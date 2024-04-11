@@ -18,7 +18,7 @@ service = UniProt()
 query = "ec:3"
 
 # Define a list of columns we want to retrive - print(service._valid_columns)
-columnlist = "accession,ec,xref_pdb,ft_act_site"
+columnlist = "accession,ec,xref_pdb,ft_act_site,sequence"
 
 # Run the remote search
 result = service.search(query, frmt="tsv", columns=columnlist, limit=20)
@@ -41,6 +41,8 @@ grouped_numbers = extracted_numbers[0].groupby(level=0).apply(list)
 
 # Rewrite active site column to just be numbers
 df_new.loc[:, 'Active site'] = grouped_numbers
+
+df_new.to_excel("withseq.xlsx")
 
 parser = Bio.PDB.PDBParser(QUIET=True) # QUIET=True avoids comments on errors in the pdb.
 #parser = PDBParser() - OG one 
